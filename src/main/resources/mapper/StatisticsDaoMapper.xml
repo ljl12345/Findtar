@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 本映射对应DAO-->
+<mapper namespace="StatisticsDao">
+
+    <resultMap id="resultMapBase" type="com.education.findstar.entity.Statistics">
+        <id column="id" property="teacherId" />
+        <id column="cnt" property="numComment"/>
+        <id column="average" property="pointAver" />
+        <id column="total" property="pointSum" />
+        <id column="cre_time" property="timeCreate"/>
+        <id column="cre_user" property="Creator"/>
+    </resultMap>
+    <sql id="sqlBase">
+        id,
+        cnt,
+        average,
+        total,
+        cre_time,
+        cre_user
+    </sql>
+    <!-- 对应Dao中的insert方法 -->
+    <insert id="insert" parameterType="com.education.findstar.entity.Statistics">
+        insert into statistic
+        values (#{teacherId},#{numComment},#{pointAver},#{pointSum},#{timeCreate}, #{Creator})
+    </insert>
+
+    <delete id = "deleteByid" parameterType="java.lang.String">
+        delete from statistic where id = #{id}
+    </delete>
+
+    <select id="selectByid" parameterType="java.lang.String" resultMap="resultMapBase">
+        select <include refid="sqlBase" /> from statistic where id = #{id}
+    </select>
+
+    <select id="selectAll" resultMap="resultMapBase">
+        select <include refid="sqlBase"/> from statistic
+    </select>
+    <update id="update" parameterType="com.education.findstar.entity.Statistics">
+        update statistic
+        set cnt = #{numComment}, average = #{pointAver},total=#{pointSum}, cre_time=#{timeCreate},cre_user = #{Creator}
+        where id = #{teacherId}
+    </update>
+
+</mapper>

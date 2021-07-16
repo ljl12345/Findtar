@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 本映射对应UserDAO-->
+<mapper namespace="UserDao">
+
+    <resultMap id="resultMapBase" type="com.education.findstar.entity.User">
+        <id column="id" property="user_id" />
+        <result column="password" property="pwd"/>
+        <result column="email" property="mail"/>
+        <result column="nickname" property="user_name"/>
+        <result column="cre_time" property="create_time" />
+        <result column="cre_user" property="creator" />
+        <result column="ban" property="ban" />
+    </resultMap>
+    <sql id="sqlBase">
+        id,
+        password,
+        email,
+        nickname,
+        cre_time,
+        cre_user,
+        ban
+    </sql>
+
+    <!-- 对应UserDao中的insert方法 -->
+    <insert id="insert" parameterType="com.education.findstar.entity.User">
+        insert into user
+        values (#{user_id},#{pwd},#{mail},#{user_name},#{create_time}, #{creator},#{ban})
+    </insert>
+
+    <delete id = "deleteByid" parameterType="java.lang.String">
+        delete from user where id = #{id}
+    </delete>
+
+    <select id="selectByid" parameterType="java.lang.String" resultMap="resultMapBase">
+        select <include refid="sqlBase" /> from user where id = #{id}
+    </select>
+
+    <select id="selectAll" resultMap="resultMapBase">
+        select <include refid="sqlBase"/> from user
+    </select>
+    <update id="update" parameterType="com.education.findstar.entity.User">
+        update user
+        set password = #{pwd}, email = #{mail},nickname=#{user_name}, ban=#{ban}
+        where id = #{user_id}
+    </update>
+
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 本映射对应DAO-->
+<mapper namespace="OrganizationDao">
+
+    <resultMap id="resultMapBase" type="com.education.findstar.entity.Organization">
+        <id column="id" property="organizationId" />
+        <id column="name" property="organizationName"/>
+        <id column="father_id" property="superId" />
+        <id column="cre_time" property="cre_time" />
+        <id column="cre_user" property="cre_user"/>
+    </resultMap>
+    <sql id="sqlBase">
+        id,name, father_id,cre_time,cre_user
+    </sql>
+    <!-- insert方法 -->
+    <insert id="insert" parameterType="com.education.findstar.entity.Organization">
+        insert
+        into organization
+        values (#{organizationId},#{organizationName},#{superId},#{cre_time},#{cre_user})
+    </insert>
+
+    <delete id = "deleteByid" parameterType="java.lang.String">
+        delete from organization where id = #{id}
+    </delete>
+
+    <select id="selectByid" parameterType="java.lang.String" resultMap="resultMapBase">
+        select <include refid="sqlBase" /> from organization where id = #{id}
+    </select>
+
+    <select id="selectAll" resultMap="resultMapBase">
+        select <include refid="sqlBase"/> from organization
+    </select>
+
+    <update id="update" parameterType="com.education.findstar.entity.Organization">
+        update organization
+        set name = #{organizationName}, father_id=#{superId}
+        where id = #{organizationId}
+    </update>
+
+</mapper>

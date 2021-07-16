@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 本映射对应UserDAO-->
+<mapper namespace="ReportDao">
+
+    <resultMap id="resultMapBase" type="com.education.findstar.entity.Report">
+        <id column="id" property="reportId" />
+        <id column="user_id" property="userId"/>
+        <id column="teacher_id" property="teacherId" />
+        <id column="reason" property="contentReport" />
+        <id column="rep_user_id" property="reportUsrId"/>
+        <id column="cre_time" property="timeReport"/>
+        <id column="cre_user" property="creator_report"/>
+    </resultMap>
+    <sql id="sqlBase">
+        id,
+        user_id,
+        teacher_id,
+        reason,
+        rep_user_id,
+        cre_time,
+        cre_user
+    </sql>
+    <!-- insert方法 -->
+    <insert id="insert" parameterType="com.education.findstar.entity.Report">
+        insert
+        into report
+        values (
+                #{reportId},
+                #{userId},
+                #{teacherId},
+                #{contentReport},
+                #{reportUsrId},
+                #{timeReport},
+                #{creator_report}
+        )
+    </insert>
+
+    <delete id = "deleteByid" parameterType="java.lang.String">
+        delete from report where id = #{id}
+    </delete>
+
+    <select id="selectByid" parameterType="java.lang.String" resultMap="resultMapBase">
+        select <include refid="sqlBase" /> from report where id = #{id}
+    </select>
+
+    <select id="selectAll" resultMap="resultMapBase">
+        select <include refid="sqlBase"/> from report
+    </select>
+
+</mapper>

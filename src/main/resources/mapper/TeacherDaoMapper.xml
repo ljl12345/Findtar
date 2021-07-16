@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 本映射对应DAO-->
+<mapper namespace="TeacherDao">
+
+    <resultMap id="resultMapBase" type="com.education.findstar.entity.Teacher">
+        <id column="id" property="teacherId" />
+        <id column="org_id" property="organizationId"/>
+        <id column="name" property="nameTeacher" />
+        <id column="cre_time" property="timeCreate" />
+        <id column="cre_user" property="creator"/>
+    </resultMap>
+    <sql id="sqlBase">
+        id,org_id,name,cre_time,cre_user
+    </sql>
+    <!-- insert方法 -->
+    <insert id="insert" parameterType="com.education.findstar.entity.Teacher">
+        insert
+        into teacher
+        values (#{teacherId},#{organizationId},#{nameTeacher},#{timeCreate},#{creator})
+    </insert>
+
+    <delete id = "deleteByid" parameterType="java.lang.String">
+        delete from teacher where id = #{id}
+    </delete>
+
+    <select id="selectByid" parameterType="java.lang.String" resultMap="resultMapBase">
+        select <include refid="sqlBase" /> from teacher where id = #{id}
+    </select>
+
+    <select id="selectAll" resultMap="resultMapBase">
+        select <include refid="sqlBase"/> from teacher
+    </select>
+    <update id="update" parameterType="com.education.findstar.entity.Teacher">
+        update teacher
+        set org_id = #{organizationId}, name=#{nameTeacher}
+        where id = #{teacherId}
+    </update>
+
+</mapper>

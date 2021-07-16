@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 本映射对应CommentDAO-->
+<mapper namespace="CommentDao">
+    <resultMap id="resultMapBase" type="com.education.findstar.entity.Comment">
+        <id column="user_id" property="user_id" />
+        <result column="cre_time" property="create_time" />
+        <result column="score" property="score" />
+        <result column="teacher_id" property="teacher_id" />
+        <result column="cre_user" property="creator" />
+        <result column="gen_rate" property="overview"/>
+        <result column="aca_rate" property="academic_comment"/>
+        <result column="time" property="time"/>
+        <result column="id" property="comment_id"/>
+    </resultMap>
+    <sql id="sqlBase">
+        user_id, teacher_id,score, aca_rate, gen_rate, time,id,cre_user, cre_time
+    </sql>
+    <!-- 对应CommentDao中的insert方法 -->
+    <insert id="insert" parameterType="com.education.findstar.entity.Comment">
+        insert into comments values(#{user_id},#{teacher_id},#{score},#{academic_comment},#{overview},#{time},#{comment_id},#{create_time},#{creator})
+    </insert>
+
+    <delete id = "deleteByid" parameterType="java.lang.String">
+        delete from comments where id = #{comment_id}
+    </delete>
+    <update id="update" parameterType="com.education.findstar.entity.Comment">
+        update comments
+        set aca_rate =#{academic_comment},gen_rate =#{overview} ,score =#{score} ,time = #{time}
+        where id = #{comment_id}
+    </update>
+    <select id="selectByid" parameterType="java.lang.String" resultMap="resultMapBase">
+        select <include refid="sqlBase" /> from comments  where id = #{comment_id}
+
+
+    </select>
+
+    <select id="selectAll" resultMap="resultMapBase">
+
+        select <include refid="sqlBase"/> from comments
+
+    </select>
+
+
+
+
+
+
+</mapper>

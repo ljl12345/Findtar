@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="LikeDao">
+    <!--namespace对应某个命名空间，这样就知道去那个文件查找关联-->
+    <!--resultType：在SQL语句执行完成之后，会将每一个结果包装成指定的对象-->
+    <resultMap id="resultmap" type="com.education.findstar.entity.Like">
+        <id column="like_user_id" property="likeId" jdbcType="VARCHAR"/>
+        <id column="user_id" property="usrId" jdbcType="VARCHAR"/>
+        <id column="teacher_id" property="teacherId" jdbcType="VARCHAR"/>
+        <id column="cre_time" property="create_time" jdbcType="TIMESTAMP"/>
+        <id column="cre_user" property="creator" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="findByLike" parameterType="com.education.findstar.entity.IdClass" resultMap="resultmap">
+        select
+        *
+        from
+            likes
+        where
+            like_user_id = #{likeId} and user_id = #{usrId} and teacher_id = #{teacherId}
+    </select>
+    <insert id="add" parameterType="com.education.findstar.entity.Like">
+        insert into likes values(#{likeId},#{usrId},#{teacherId},#{create_time},#{creator})
+    </insert>
+    <delete id="deleteByLike" parameterType="com.education.findstar.entity.IdClass">
+        delete from likes
+        where
+            like_user_id = #{likeId} and user_id = #{usrId} and teacher_id = #{teacherId}
+    </delete>
+
+</mapper>

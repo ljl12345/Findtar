@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 本映射对应UserDAO-->
+<mapper namespace="AdministratorDao">
+
+    <resultMap id="resultMapBase" type="com.education.findstar.entity.Administrator">
+        <id column="id" property="Admin_id" />
+        <id column="cre_time" property="cre_time" />
+        <id column="cre_user" property="cre_user"/>
+    </resultMap>
+    <sql id="sqlBase">
+        id,cre_time,cre_user
+    </sql>
+    <!-- insert方法 -->
+    <insert id="insert" parameterType="com.education.findstar.entity.Administrator">
+        insert
+        into administrator
+        values (#{Admin_id},#{cre_time},#{cre_user})
+    </insert>
+
+    <delete id = "deleteByid" parameterType="java.lang.String">
+        delete from administrator where id = #{id}
+    </delete>
+
+    <select id="selectByid" parameterType="java.lang.String" resultMap="resultMapBase">
+        select <include refid="sqlBase" /> from administrator where id = #{id}
+    </select>
+
+    <select id="selectAll" resultMap="resultMapBase">
+        select <include refid="sqlBase"/> from administrator
+    </select>
+
+
+
+</mapper>
